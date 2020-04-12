@@ -1,0 +1,13 @@
+backports-abc==0.5
+click==7.1.1
+djangorestframework-jwt==1.11.0
+Flask==1.1.2
+futures==3.3.0
+itsdangerous==1.1.0
+Jinja2==2.11.1
+MarkupSafe==1.1.1
+PyJWT==1.7.1
+singledispatch==3.4.0.3
+six==1.14.0
+tornado==5.1.1
+Werkzeug==1.0.1
