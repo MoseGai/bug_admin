@@ -1,5 +1,7 @@
 backports-abc==0.5
 click==7.1.1
+Django==1.11.29
+django-cors-headers==3.0.2
 djangorestframework-jwt==1.11.0
 Flask==1.1.2
 futures==3.3.0
@@ -7,6 +9,9 @@ itsdangerous==1.1.0
 Jinja2==2.11.1
 MarkupSafe==1.1.1
 PyJWT==1.7.1
+pytz==2019.3
+qcloudsms-py==0.1.4
+redis==3.4.1
 singledispatch==3.4.0.3
 six==1.14.0
 tornado==5.1.1

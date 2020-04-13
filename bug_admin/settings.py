@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app01.apps.App01Config',
+    'web.apps.WebConfig'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'web.middleware.auth.AuthMiddleware'
 ]
 
 ROOT_URLCONF = 'bug_admin.urls'
@@ -71,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bug_admin.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -81,7 +81,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -107,13 +106,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# 影响自动生成数据库时间字段；
+#       USE_TZ = True，创建UTC时间写入到数据库。
+#       USE_TZ = False，根据TIME_ZONE设置的时区进行创建时间并写入数据库
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -121,8 +123,37 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# ######## sms  ########
+
+# 腾讯云短信应用的 app_id
+TENCENT_SMS_APP_ID = 6666666666
+
+# 腾讯云短信应用的 app_key
+TENCENT_SMS_APP_KEY = "6666666666666666666666"
+
+# 腾讯云短信签名内容
+TENCENT_SMS_SIGN = "Python之路"
+
+TENCENT_SMS_TEMPLATE = {
+    'register': 548760,
+    'login': 548762
+}
 
 
+TENCENT_COS_ID = "COS的secret_id"
+TENCENT_COS_KEY = "COS的secret_key"
+
+
+# ########### 登录白名单：无需登录就可以访问的页面 ###########
+WHITE_REGEX_URL_LIST = [
+    "/register/",
+    "/send/sms/",
+    "/login/",
+    "/login/sms/",
+    "/image/code/",
+    "/index/",
+    "/price/",
+]
 # 创建自己的local_settings
 # 自己的模板
 try:
@@ -130,4 +161,18 @@ try:
 except ImportError:
     pass
 
-
+# redis连接数据库
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379", # 安装redis的主机的 IP 和 端口
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {
+                "max_connections": 1000,
+                "encoding": 'utf-8'
+            },
+            # "PASSWORD": "foobared" # redis密码
+        }
+    }
+}
